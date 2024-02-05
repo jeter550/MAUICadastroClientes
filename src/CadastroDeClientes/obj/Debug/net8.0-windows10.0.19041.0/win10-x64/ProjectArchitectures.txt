@@ -1,0 +1,1 @@
+C:\Users\jeter\source\repos\MAUICadastroClientes\src\CadastroDeClientes\CadastroDeClientes.csproj;x64
