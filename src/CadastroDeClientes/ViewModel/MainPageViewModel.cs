@@ -29,7 +29,11 @@ namespace CadastroDeClientes.ViewModel
             this.AddCommand = new Command(OnAddCommand);
             this.DeleteCommand = new Command(OnDeleteCommand);
             this.EditCommand = new Command(OnEditCommand);
+
+            _isEditing = false;
         }
+
+        private bool _isEditing = false;
 
         private void OnEditCommand(object sender)
         {
@@ -39,9 +43,29 @@ namespace CadastroDeClientes.ViewModel
 
         private void OnAddCommand(object sender)
         {
-            var newItem = new CustomerModel();
-            this.CustomersList.Add(newItem);
-            this.SelectedCustomer = newItem;
+            if (SelectedCustomer is null)
+                SelectedCustomer = new CustomerModel();
+
+            if (!( this.CustomersList.FirstOrDefault(s => s.GetHashCode() == SelectedCustomer.GetHashCode()) is null ) )
+            {
+                var newItem = new CustomerModel();
+                this.CustomersList.Add(newItem);
+                this.SelectedCustomer = newItem;
+
+            }
+            else
+            {
+                var newItem = new CustomerModel()
+                {
+                    Name = this.SelectedCustomer.Name,
+                    Lastname = this.SelectedCustomer.Lastname,
+                    Age = this.SelectedCustomer.Age,
+                    Adress = this.SelectedCustomer.Adress,
+                };
+                this.CustomersList.Add(newItem);
+                this.SelectedCustomer = newItem;
+            }
+            
 
         }
 
@@ -49,10 +73,12 @@ namespace CadastroDeClientes.ViewModel
         {
             if (this.CustomersList.Count > 0)
             {
-                if(await this.PageContainer.DisplayAlert("Confirmar exclusão", "Tem certeza que deseja excluir o cliente selecionado?", "Sim", "Não"))
+                if (await this.PageContainer.DisplayAlert("Confirmar exclusão", "Tem certeza que deseja excluir o cliente selecionado?", "Sim", "Não"))
+                {
                     this.CustomersList.Remove((CustomerModel)sender);
+                    _isEditing = false;
+                }
             }
-
         }
 
         private void OnItemSelectedCommand(object obj)
@@ -63,7 +89,7 @@ namespace CadastroDeClientes.ViewModel
         public CustomerModel SelectedCustomer
         {
             get { return _clienteSelecionado; }
-            set { _clienteSelecionado = value; OnPropertyChanged(() => SelectedCustomer); }
+            set { _clienteSelecionado = value; OnPropertyChanged(() => SelectedCustomer); _isEditing = true; }
         }
 
         private ObservableCollection<CustomerModel> _customersList;
