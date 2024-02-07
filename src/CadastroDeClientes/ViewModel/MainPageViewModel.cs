@@ -15,35 +15,42 @@ namespace CadastroDeClientes.ViewModel
         {
             this.CustomersList = new ObservableCollection<CustomerModel>()
             {
-                new CustomerModel() {  Name = "João", Lastname = "Santos", Age = 18, Adress = "Rua 1, Jd Das Flores" },
-                new CustomerModel() {  Name = "Maria", Lastname = "Ferreira", Age = 18, Adress = "Av Jardineiro, Tela dois" },
-                new CustomerModel() {  Name = "José", Lastname = "Aldo", Age = 18, Adress = "Rua dos Lanranjais, Parque Um" },
+                new CustomerModel() {  Name = "João", Lastname = "Santos", Age = 41, Adress = "Rua 1, Jd Das Flores" },
+                new CustomerModel() {  Name = "Maria", Lastname = "Ferreira", Age = 27, Adress = "Av Jardineiro, Tela dois" },
+                new CustomerModel() {  Name = "José", Lastname = "Aldo", Age = 19, Adress = "Rua dos Lanranjais, Parque Um" },
                 new CustomerModel() {  Name = "Anderson", Lastname = "Mariano", Age = 18, Adress = "Travessa Cinco, Vila das Alves" },
-                new CustomerModel() {  Name = "Richard", Lastname = "Torres", Age = 18, Adress = "Quarta com Sexta, Novos Ares" },
+                new CustomerModel() {  Name = "Richard", Lastname = "Torres", Age = 40, Adress = "Quarta com Sexta, Novos Ares" },
             };
 
-            this.ClienteSelecionado = new CustomerModel() { Age = 18 };
+            this.SelectedCustomer = new CustomerModel();
 
             this.ItemSelectedCommand = new Command(OnItemSelectedCommand);
 
-            this.SaveCommand = new Command(OnSaveCommand);
-            this.DeleteCommand = new Command(OnSaveCommand);
+            this.AddCommand = new Command(OnAddCommand);
+            this.DeleteCommand = new Command(OnDeleteCommand);
+            this.EditCommand = new Command(OnEditCommand);
         }
 
-        private void OnSaveCommand(object obj)
+        private void OnEditCommand(object sender)
+        {
+
+            this.SelectedCustomer = (CustomerModel)sender;
+        }
+
+        private void OnAddCommand(object sender)
+        {
+            var newItem = new CustomerModel();
+            this.CustomersList.Add(newItem);
+            this.SelectedCustomer = newItem;
+
+        }
+
+        private async void OnDeleteCommand(object sender)
         {
             if (this.CustomersList.Count > 0)
             {
-                this.CustomersList.RemoveAt(0);
-            }
-
-        }
-
-        private void OnDeleteCommand(object obj)
-        {
-            if (this.CustomersList.Count > 0)
-            {
-                this.CustomersList.RemoveAt(0);
+                if(await this.PageContainer.DisplayAlert("Confirmar exclusão", "Tem certeza que deseja excluir o cliente selecionado?", "Sim", "Não"))
+                    this.CustomersList.Remove((CustomerModel)sender);
             }
 
         }
@@ -53,10 +60,10 @@ namespace CadastroDeClientes.ViewModel
         }
 
         private CustomerModel _clienteSelecionado;
-        public CustomerModel ClienteSelecionado
+        public CustomerModel SelectedCustomer
         {
             get { return _clienteSelecionado; }
-            set { _clienteSelecionado = value; OnPropertyChanged(() => ClienteSelecionado); }
+            set { _clienteSelecionado = value; OnPropertyChanged(() => SelectedCustomer); }
         }
 
         private ObservableCollection<CustomerModel> _customersList;
@@ -81,17 +88,17 @@ namespace CadastroDeClientes.ViewModel
             }
         }
         
-        private ICommand _saveCommand;
-        public ICommand SaveCommand
+        private ICommand _addCommand;
+        public ICommand AddCommand
         {
             get
             {
-                return _saveCommand;
+                return _addCommand;
             }
             set
             {
-                _saveCommand = value;
-                OnPropertyChanged(() => SaveCommand);
+                _addCommand = value;
+                OnPropertyChanged(() => AddCommand);
             }
         }
 
@@ -109,6 +116,20 @@ namespace CadastroDeClientes.ViewModel
             }
         }
 
-        
+        private ICommand _editCommand;
+        public ICommand EditCommand
+        {
+            get
+            {
+                return _editCommand;
+            }
+            set
+            {
+                _editCommand = value;
+                OnPropertyChanged(() => EditCommand);
+            }
+        }
+
+
     }
 }

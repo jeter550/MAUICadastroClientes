@@ -8,7 +8,7 @@
     Title="CadastroDeClientes">
 
     <ShellContent
-        Title="Home"
+        Title="Cadastro de clientes"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

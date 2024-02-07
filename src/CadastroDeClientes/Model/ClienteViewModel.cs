@@ -29,7 +29,9 @@ namespace ViewModel
         public int Age
         {
             get { return _age; }
-            set { _age = value; OnPropertyChanged(() => Age); }
+            set { 
+                _age = value; 
+                OnPropertyChanged(() => Age); }
         }
 
         private string _adress;

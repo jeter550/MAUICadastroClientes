@@ -17,65 +17,81 @@
                 <Label
         Text="Name"                
         FontSize="16"
-        HorizontalOptions="Start" />
-                <Entry Text="{Binding Path=ClienteSelecionado.Name, Mode=TwoWay}"/>
+        HorizontalOptions="Start" VerticalOptions="Center" />
+                <Entry Text="{Binding Path=SelectedCustomer.Name, Mode=TwoWay}" WidthRequest="150"/>
 
                 <Label
         Text="Lastname"                
         FontSize="16"
-        HorizontalOptions="Start" />
+        HorizontalOptions="Start" VerticalOptions="Center" />
 
-                <Entry Text="{Binding Path=ClienteSelecionado.Lastname, Mode=TwoWay}" />
+                <Entry Text="{Binding Path=SelectedCustomer.Lastname, Mode=TwoWay}"  WidthRequest="150"/>
 
                 <Label
         Text="Age"                
         FontSize="16"
-        HorizontalOptions="Start" />
+        HorizontalOptions="Start" VerticalOptions="Center" />
 
-                <Entry Text="{Binding Path=ClienteSelecionado.Age, Mode=TwoWay}" />
+                <Entry Text="{Binding Path=SelectedCustomer.Age, Mode=TwoWay}"  WidthRequest="50" />
 
                 <Label  
         Text="Adress"        
         FontSize="16"
-        HorizontalOptions="Start" />
+        HorizontalOptions="Start" VerticalOptions="Center" />
 
-                <Entry Text="{Binding Path=ClienteSelecionado.Adress, Mode=TwoWay}" />
+                <Entry Text="{Binding Path=SelectedCustomer.Adress, Mode=TwoWay}"  WidthRequest="250"/>
 
-                <Button x:Name="GerarSimulacaoButton"
-            Text="Gerar Simulação"
-            TextColor="BlueViolet"
-            SemanticProperties.Hint="Gerar Simulação"                
+                <Button  Margin="5" 
+            Text=" + "
+            SemanticProperties.Hint="Adiocnar novo cliente"                
             HorizontalOptions="Center"
             Padding="15"
-            Command="{Binding SaveCommand}"/>
+            Command="{Binding AddCommand} "/>
 
             </HorizontalStackLayout>
             <HorizontalStackLayout>
-                <CollectionView x:Name="viewCustumerList" ItemsSource="{Binding Mode=TwoWay, Source={Reference viewModel}, Path=CustomersList}" SelectionMode="Single" SelectedItem="{Binding ClienteSelecionado, Mode=TwoWay}" SelectionChangedCommand="{Binding ItemSelectedCommand}">
+                <CollectionView HorizontalOptions="Fill" x:Name="viewCustumerList" ItemsSource="{Binding Mode=TwoWay, Source={Reference viewModel}, Path=CustomersList}" SelectionMode="Single" SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}" SelectionChangedCommand="{Binding ItemSelectedCommand}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Padding="10">
+                            <Grid Padding="5" HorizontalOptions="Fill">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="45" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="70" />
+                                    <ColumnDefinition Width="400" />
+                                    <ColumnDefinition Width="200" />
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.RowSpan="2"
-                       Source="{Binding ImageUrl}"
-                       Aspect="AspectFill"
-                       HeightRequest="60"
-                       WidthRequest="60" />
+                                <!--<Image Grid.RowSpan="2"
+                                   Source="{Binding ImageUrl}"
+                                   Aspect="AspectFill"/>--> 
                                 <Label Grid.Column="1"
-                       Text="{Binding Name}"
-                       FontAttributes="Bold" />
-                                <Label Grid.Row="1"
-                       Grid.Column="1"
-                       Text="{Binding Location}"
-                       FontAttributes="Italic"
-                       VerticalOptions="End" />
+                                   Text="{Binding Name}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"/>
+                                <Label Grid.Column="2"
+                                   Text="{Binding Lastname}"
+                                   FontAttributes="Italic"
+                                   VerticalOptions="Center" />
+
+                                <Label Grid.Column="3"
+                                   Text="{Binding Age}"
+                                   FontAttributes="Italic"
+                                   VerticalOptions="Center" HorizontalOptions="Fill"/>
+
+                                <Label Grid.Column="4"
+                                   Text="{Binding Adress}"
+                                   FontAttributes="Italic"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Fill"/>
+
+                                <HorizontalStackLayout Grid.Column="5">
+                                    <Button Text="Editar" Padding="20, 0, 20, 0" Margin="5, 0, 5, 0" HeightRequest="20" Command="{Binding EditCommand, Source={Reference viewModel}}"  CommandParameter="{Binding}"/>
+                                    <Button Text="Excluir" Padding="20, 0, 20, 0" Margin="5, 0, 5, 0"  HeightRequest="20" Command="{Binding DeleteCommand, Source={Reference viewModel}}" CommandParameter="{Binding}" />
+                                </HorizontalStackLayout>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
