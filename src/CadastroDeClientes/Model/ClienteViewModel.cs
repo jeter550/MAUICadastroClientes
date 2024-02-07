@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class CustomerViewModel: ViewModelBase
+    public class CustomerModel: ViewModelBase
     {
         private string _name;
 
@@ -24,9 +24,9 @@ namespace ViewModel
             set { _lastname = value; OnPropertyChanged(() => Lastname); }
         }
 
-        private string _age;
+        private int _age;
 
-        public string Age
+        public int Age
         {
             get { return _age; }
             set { _age = value; OnPropertyChanged(() => Age); }
