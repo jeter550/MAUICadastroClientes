@@ -1,4 +1,4 @@
-# Desafio Entrevista .NET MAUI
+# Desafio .NET MAUI
 <img src="Imagem.png">
 
 # Informações sobre o projeto
